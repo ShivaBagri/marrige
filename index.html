@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Serious Marriage Application 💍</title>
+  <title>Shadi Ka Test 💍😂</title>
+
   <style>
     body {
       text-align: center;
       font-family: Arial;
       margin-top: 60px;
-      background: #fff0f5;
+
+      /* 🌹 Rose/Pink background */
+      background: linear-gradient(135deg, #ffe6f0, #ffb6c1, #ff69b4);
+      height: 100vh;
+      overflow: hidden;
     }
 
     h1 {
       font-size: 28px;
+      color: #8b004f;
+    }
+
+    /* BIG QUESTION TEXT */
+    #question {
+      font-size: 42px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #4b004b;
     }
 
     button {
@@ -36,20 +50,21 @@
 
     #msg {
       margin-top: 25px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
-      color: #ff1493;
+      color: #8b004f;
     }
   </style>
 </head>
+
 <body>
 
-<h1>💍 Marriage Compatibility Test</h1>
+<h1>💍 शादी का छोटा सा टेस्ट 😄</h1>
 
-<p id="question">Do you agree I am the best person ever? 😏</p>
+<p id="question">क्या तुम मानते हो मैं सबसे अच्छा इंसान हूँ? 😏</p>
 
-<button id="yesBtn" onclick="nextQuestion()">Yes 💕</button>
-<button id="noBtn" onmouseover="runAway()">No 🙈</button>
+<button id="yesBtn" onclick="nextQuestion()">हाँ 💕</button>
+<button id="noBtn" onmouseover="runAway()">नहीं 🙈</button>
 
 <div id="msg"></div>
 
@@ -57,12 +72,12 @@
 let step = 0;
 
 const questions = [
-  "Do you agree I am the best person ever? 😏",
-  "Will you share your food with me? 🍕😂",
-  "Will you watch my favorite movie even if it's boring? 🎬",
-  "Will you tolerate my bad jokes forever? 😭",
-  "Promise to never steal my fries? 🍟👀",
-  "Final question: Will you marry me? 💍😳"
+  "क्या तुम मानते हो मैं सबसे अच्छा इंसान हूँ? 😏",
+  "क्या तुम मेरे साथ अपना खाना शेयर करोगे? 🍕😂",
+  "क्या तुम मेरी बोरिंग मूवी भी देखोगे? 🎬",
+  "क्या तुम मेरे फालतू जोक्स सह लोगे? 😭",
+  "क्या तुम मेरे फ्राइज कभी नहीं चुराओगे? 🍟👀",
+  "आख़िरी सवाल: क्या तुम मुझसे शादी करोगे? 💍😳"
 ];
 
 function nextQuestion() {
@@ -71,9 +86,9 @@ function nextQuestion() {
   if (step < questions.length) {
     document.getElementById("question").innerText = questions[step];
   } else {
-    document.getElementById("question").innerText = "Decision time 😏";
+    document.getElementById("question").innerText = "अब फैसला करो 😏";
     document.getElementById("msg").innerText =
-      "If you reached here… you HAVE to say YES 💍😂";
+      "अगर यहाँ तक आ गए हो… तो YES बोलना ही पड़ेगा 💍😂";
   }
 }
 
