@@ -1,103 +1,193 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Shadi Ka Test 💍😂</title>
+<meta charset="UTF-8">
+<title>Mobile Proof Proposal Game 💍</title>
 
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial;
-      margin-top: 60px;
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
 
-      /* 🌹 Rose/Pink background */
-      background: linear-gradient(135deg, #ffe6f0, #ffb6c1, #ff69b4);
-      height: 100vh;
-      overflow: hidden;
-    }
+  .box {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 350px;
+    position: relative;
+  }
 
-    h1 {
-      font-size: 28px;
-      color: #8b004f;
-    }
+  .question {
+    font-size: 20px;
+    margin-bottom: 20px;
+    min-height: 60px;
+  }
 
-    /* BIG QUESTION TEXT */
-    #question {
-      font-size: 42px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #4b004b;
-    }
+  .answer {
+    font-size: 22px;
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+    display: none;
+    animation: pop 0.4s ease;
+  }
 
-    button {
-      padding: 12px 20px;
-      font-size: 18px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+  @keyframes pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
 
-    #yesBtn {
-      background: #28a745;
-      color: white;
-    }
+  button {
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.2s ease;
+  }
 
-    #noBtn {
-      background: #dc3545;
-      color: white;
-      position: absolute;
-    }
+  .yesBtn {
+    background: hotpink;
+  }
 
-    #msg {
-      margin-top: 25px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #8b004f;
-    }
-  </style>
+  .yesBtn:hover {
+    background: deeppink;
+    transform: scale(1.05);
+  }
+
+  .noBtn {
+    background: gray;
+    position: absolute;
+    left: 200px;
+    top: 120px;
+    transition: left 0.15s ease, top 0.15s ease;
+    touch-action: none;
+  }
+
+  .confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    top: 0;
+    z-index: 999;
+  }
+</style>
 </head>
 
 <body>
 
-<h1>💍 शादी का छोटा सा टेस्ट 😄</h1>
+<div class="box" id="box">
+  <div class="question" id="question">Click YES to Start 💍</div>
 
-<p id="question">क्या तुम मानते हो मैं सबसे अच्छा इंसान हूँ? 😏</p>
+  <button class="yesBtn" id="yesBtn">YES 💖</button>
+  <button class="noBtn" id="noBtn">NO 😏</button>
 
-<button id="yesBtn" onclick="nextQuestion()">हाँ 💕</button>
-<button id="noBtn" onmouseover="runAway()">नहीं 🙈</button>
-
-<div id="msg"></div>
+  <div class="answer" id="answer"></div>
+</div>
 
 <script>
-let step = 0;
-
 const questions = [
-  "क्या तुम मानते हो मैं सबसे अच्छा इंसान हूँ? 😏",
-  "क्या तुम मेरे साथ अपना खाना शेयर करोगे? 🍕😂",
-  "क्या तुम मेरी बोरिंग मूवी भी देखोगे? 🎬",
-  "क्या तुम मेरे फालतू जोक्स सह लोगे? 😭",
-  "क्या तुम मेरे फ्राइज कभी नहीं चुराओगे? 🍟👀",
-  "आख़िरी सवाल: क्या तुम मुझसे शादी करोगे? 💍😳"
+  "क्या आप मानते हैं मैं आपके लिए best हूँ? 😏",
+  "क्या आप मेरे साथ food share करेंगे? 🍕😂",
+  "क्या आप मेरी boring movie देखेंगे? 🎬",
+  "क्या आप मेरे jokes झेलेंगे? 😭",
+  "आख़िरी सवाल: क्या आप मुझसे शादी करेंगे? 💍😳"
 ];
 
-function nextQuestion() {
-  step++;
+let index = 0;
+let started = false;
 
-  if (step < questions.length) {
-    document.getElementById("question").innerText = questions[step];
-  } else {
-    document.getElementById("question").innerText = "अब फैसला करो 😏";
-    document.getElementById("msg").innerText =
-      "अगर यहाँ तक आ गए हो… तो YES बोलना ही पड़ेगा 💍😂";
-  }
+const questionEl = document.getElementById("question");
+const noBtn = document.getElementById("noBtn");
+const box = document.getElementById("box");
+const answerEl = document.getElementById("answer");
+const yesBtn = document.getElementById("yesBtn");
+
+function loadQuestion() {
+  questionEl.innerText = questions[index];
 }
 
-function runAway() {
-  const btn = document.getElementById("noBtn");
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
+// YES button 💖
+yesBtn.addEventListener("click", () => {
+
+  if (!started) {
+    started = true;
+    index = 0;
+    loadQuestion();
+    return;
+  }
+
+  if (index < questions.length - 1) {
+    index++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+});
+
+// NO escape (desktop + mobile)
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+noBtn.addEventListener("touchstart", function(e) {
+  e.preventDefault();
+  moveNo();
+}, { passive: false });
+
+function moveNo() {
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+// RESULT 💍
+function showResult() {
+  questionEl.innerText = "💍 Proposal Complete!";
+  answerEl.style.display = "block";
+  answerEl.innerText = "❤️ She said YES! 💍 Forever ❤️";
+
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+
+  celebrate();
+}
+
+// CONFETTI 🎉
+function celebrate() {
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement("div");
+    c.classList.add("confetti");
+
+    c.style.left = Math.random() * window.innerWidth + "px";
+    c.style.background = ["#ff0", "#f0f", "#0ff", "#fff", "#f66"][Math.floor(Math.random()*5)];
+
+    document.body.appendChild(c);
+
+    c.animate([
+      { transform: "translateY(0)" },
+      { transform: `translateY(${window.innerHeight}px)` }
+    ], {
+      duration: 2000 + Math.random() * 2000
+    });
+
+    setTimeout(() => c.remove(), 3000);
+  }
 }
 </script>
 
