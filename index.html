@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Mobile Proof Proposal Game 💍</title>
+<title>Funny Proposal</title>
 
 <style>
   body {
@@ -14,7 +14,6 @@
     align-items: center;
     font-family: Arial, sans-serif;
     overflow: hidden;
-    user-select: none;
   }
 
   .box {
@@ -39,12 +38,6 @@
     font-weight: bold;
     margin-top: 20px;
     display: none;
-    animation: pop 0.4s ease;
-  }
-
-  @keyframes pop {
-    from { transform: scale(0.5); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
   }
 
   button {
@@ -55,16 +48,22 @@
     border-radius: 10px;
     cursor: pointer;
     margin: 5px;
-    transition: all 0.2s ease;
   }
 
+  /* ✨ GLOW ADDED HERE */
   .yesBtn {
     background: hotpink;
+    box-shadow: 0 0 10px hotpink, 0 0 20px deeppink, 0 0 30px hotpink;
+    animation: glow 1.5s infinite alternate;
   }
 
-  .yesBtn:hover {
-    background: deeppink;
-    transform: scale(1.05);
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px hotpink, 0 0 10px deeppink;
+    }
+    100% {
+      box-shadow: 0 0 20px hotpink, 0 0 40px deeppink, 0 0 60px hotpink;
+    }
   }
 
   .noBtn {
@@ -72,16 +71,10 @@
     position: absolute;
     left: 200px;
     top: 120px;
-    transition: left 0.15s ease, top 0.15s ease;
-    touch-action: none;
   }
 
-  .confetti {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    top: 0;
-    z-index: 999;
+  .yesBtn:hover {
+    background: deeppink;
   }
 </style>
 </head>
@@ -89,106 +82,105 @@
 <body>
 
 <div class="box" id="box">
-  <div class="question" id="question">Hello Madam ji (Muskan) 💖💍</div>
+  <div class="question" id="question">Click Start 💍</div>
 
-  <button class="yesBtn" id="yesBtn">YES 💖</button>
-  <button class="noBtn" id="noBtn">NO 😏</button>
+  <button class="yesBtn" id="yesBtn">Bhatta 💖</button>
+
+  <!-- 6 NO buttons -->
+  <button class="noBtn">Matar Paneer</button>
+  <button class="noBtn">Palak Paneer😏</button>
+  <button class="noBtn">Dal Makhani</button>
+  <button class="noBtn">Kadhi Chawal</button>
+  <button class="noBtn">Aloo Gobhi</button>
+  <button class="noBtn">Veg Biryani</button>
 
   <div class="answer" id="answer"></div>
 </div>
 
 <script>
 const questions = [
-  "क्या आप मानते हैं मैं आपके लिए best हूँ? 😏",
-  "क्या आप मेरे साथ food share करेंगे? 🍕😂",
-  "क्या आप मेरे साथ boring movie देखेंगे? 🎬",
-  "क्या आप मेरे bad jokes झेलेंगे? 😭",
-  "आख़िरी सवाल: क्या आप शादी के लिए Ready हैं? 💍😳"
+  "आपकी पसंदीदा सब्जी कौन सी है??"
 ];
 
 let index = 0;
-let started = false;
 
 const questionEl = document.getElementById("question");
-const noBtn = document.getElementById("noBtn");
-const box = document.getElementById("box");
+const noBtns = document.querySelectorAll(".noBtn");
 const answerEl = document.getElementById("answer");
 const yesBtn = document.getElementById("yesBtn");
+const box = document.getElementById("box");
 
 function loadQuestion() {
   questionEl.innerText = questions[index];
 }
 
-// YES button 💖
+loadQuestion();
+
+// YES button
 yesBtn.addEventListener("click", () => {
-
-  if (!started) {
-    started = true;
-    index = 0;
-    loadQuestion();
-    return;
-  }
-
   if (index < questions.length - 1) {
     index++;
     loadQuestion();
   } else {
-    showResult();
+    questionEl.innerText = "💍 Dekha Mera Guess";
+    answerEl.style.display = "block";
+    answerEl.innerText = "❤️ Mujhe pata tha aapko Bhatta pasand hai 😆";
+
+    yesBtn.style.display = "none";
+    noBtns.forEach(btn => btn.style.display = "none");
   }
 });
 
-// NO escape (desktop + mobile)
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("click", moveNo);
-noBtn.addEventListener("touchstart", function(e) {
-  e.preventDefault();
-  moveNo();
-}, { passive: false });
-
-function moveNo() {
-  const maxX = box.clientWidth - noBtn.offsetWidth;
-  const maxY = box.clientHeight - noBtn.offsetHeight;
-
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+// overlap check
+function isOverlapping(x, y, rect, w, h) {
+  return (
+    x < rect.right &&
+    x + w > rect.left &&
+    y < rect.bottom &&
+    y + h > rect.top
+  );
 }
 
-// RESULT 💍
-function showResult() {
-  questionEl.innerText = "💍 Proposal Complete!";
-  answerEl.style.display = "block";
-  answerEl.innerText = "❤️ Madam ji said YES! 💍 Forever ❤️";
+// NO buttons movement
+noBtns.forEach((noBtn) => {
+  noBtn.addEventListener("mouseover", () => {
 
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
+    const boxRect = box.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
 
-  celebrate();
-}
+    const w = noBtn.offsetWidth;
+    const h = noBtn.offsetHeight;
 
-// CONFETTI 🎉
-function celebrate() {
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement("div");
-    c.classList.add("confetti");
+    let x, y, overlap;
 
-    c.style.left = Math.random() * window.innerWidth + "px";
-    c.style.background = ["#ff0", "#f0f", "#0ff", "#fff", "#f66"][Math.floor(Math.random()*5)];
+    do {
+      x = Math.random() * (window.innerWidth - 100);
 
-    document.body.appendChild(c);
+      const minY = boxRect.top + 120;
+      y = minY + Math.random() * (window.innerHeight - minY - 60);
 
-    c.animate([
-      { transform: "translateY(0)" },
-      { transform: `translateY(${window.innerHeight}px)` }
-    ], {
-      duration: 2000 + Math.random() * 2000
-    });
+      overlap = false;
 
-    setTimeout(() => c.remove(), 3000);
-  }
-}
+      if (isOverlapping(x, y, yesRect, w, h)) {
+        overlap = true;
+      }
+
+      noBtns.forEach(other => {
+        if (other !== noBtn) {
+          const r = other.getBoundingClientRect();
+          if (isOverlapping(x, y, r, w, h)) {
+            overlap = true;
+          }
+        }
+      });
+
+    } while (overlap);
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  });
+});
 </script>
 
 </body>
