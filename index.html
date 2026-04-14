@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Important Question 💍</title>
+  <title>Serious Marriage Application 💍</title>
   <style>
     body {
       text-align: center;
       font-family: Arial;
-      margin-top: 80px;
+      margin-top: 60px;
       background: #fff0f5;
     }
 
     h1 {
-      font-size: 32px;
+      font-size: 28px;
     }
 
     button {
-      padding: 12px 25px;
+      padding: 12px 20px;
       font-size: 18px;
       margin: 10px;
       border: none;
@@ -24,19 +24,19 @@
     }
 
     #yesBtn {
-      background-color: #28a745;
+      background: #28a745;
       color: white;
     }
 
     #noBtn {
-      background-color: #dc3545;
+      background: #dc3545;
       color: white;
       position: absolute;
     }
 
     #msg {
-      margin-top: 30px;
-      font-size: 22px;
+      margin-top: 25px;
+      font-size: 20px;
       font-weight: bold;
       color: #ff1493;
     }
@@ -44,18 +44,37 @@
 </head>
 <body>
 
-<h1>💍 I have a serious question...</h1>
-<p>Think carefully 😏</p>
+<h1>💍 Marriage Compatibility Test</h1>
 
-<button id="yesBtn" onclick="sayYes()">Yes 💕</button>
+<p id="question">Do you agree I am the best person ever? 😏</p>
+
+<button id="yesBtn" onclick="nextQuestion()">Yes 💕</button>
 <button id="noBtn" onmouseover="runAway()">No 🙈</button>
 
 <div id="msg"></div>
 
 <script>
-function sayYes() {
-  document.getElementById("msg").innerHTML =
-    "YAY!!! 💍😂 Welcome to the chaos… I mean marriage ❤️";
+let step = 0;
+
+const questions = [
+  "Do you agree I am the best person ever? 😏",
+  "Will you share your food with me? 🍕😂",
+  "Will you watch my favorite movie even if it's boring? 🎬",
+  "Will you tolerate my bad jokes forever? 😭",
+  "Promise to never steal my fries? 🍟👀",
+  "Final question: Will you marry me? 💍😳"
+];
+
+function nextQuestion() {
+  step++;
+
+  if (step < questions.length) {
+    document.getElementById("question").innerText = questions[step];
+  } else {
+    document.getElementById("question").innerText = "Decision time 😏";
+    document.getElementById("msg").innerText =
+      "If you reached here… you HAVE to say YES 💍😂";
+  }
 }
 
 function runAway() {
